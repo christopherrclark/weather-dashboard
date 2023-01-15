@@ -8,6 +8,7 @@ var tempEl = document.getElementById('temp');
 var cloudsEl = document.getElementById('clouds');
 var windEl = document.getElementById('wind');
 var humidityEl = document.getElementById('humidity');
+var savedCities = []
 
 // document.querySelector('#search-input').value;
 
@@ -17,13 +18,14 @@ var humidityEl = document.getElementById('humidity');
 
 // fetch(queryURL) 
 
-
+getStorage();
 
 // Here's a sample of how you might start the app
+// contact with Api to get weather data adn assigning text content to the HTML based on weather data retrieved
 function getWeatherData(event){
   event.preventDefault();
   var city = cityEl.value.trim();
-  var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIkey
+  var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + APIkey + "&units=imperial"
   fetch(apiURL)
   .then( response => {
     return response.json()
@@ -33,38 +35,71 @@ function getWeatherData(event){
     // parseWeatherData(data)
     console.log (data)
     cityNameEl.textContent = data.name;
-    tempEl.textContent = "Temp: " + data.main.temp;
+    tempEl.textContent = "Temp: " + data.main.temp + " F";
     cloudsEl.textContent = "Cloud Conditions: " + data.weather[0].description;
-    windEl.textContent = "Wind: " + data.wind.speed;
-    humidityEl.textContent = "Humidity: " + data.main.humidity;
+    windEl.textContent = "Wind: " + data.wind.speed + " mph";
+    humidityEl.textContent = "Humidity: " + data.main.humidity + " %";
 
   })
 }
-searchFormEl.addEventListener('submit', getWeatherData);
 
+// added eventListener to watch for when submit button is pushed to start looking weather data for seached city
+searchFormEl.addEventListener('submit', function(event){
+  getWeatherData(event);
+  console.log (cityEl.value);
+  savedCities.push(cityEl.value.trim());
+  localStorage.setItem("Saved Cities", JSON.stringify(savedCities));
+  createCityBox();
+});
 
-function parseWeatherData(data){
-  data.forEach( obj => {
-    // use moment or dayjs to parse the obj dt variable and get the "real date"
-    const dateObj = new moment(obj.list.dt)
-    console.log(date.obj); //get just day value
+// create box for searched city
+function createCityBox(){
+  let newCity = document.createElement("div").classList.add("new-cities");  //target "new-cities" for css styling box for each city saved
+  newCity.textContent = cityEl.value.trim();
+  document.getElementById("prev-searched-cities").appendChild(newCity);
+}
 
-    // from this dateObj, use moment or js to get the date it represents. ***This is for you to do ***.
-    const currday = ""; //logging what day were on
-
-    // if the current dt value differs from the global variable, AND we don't have data in our array for this day, 
-    // we must be on a new day
-    if( currDay !== currDTValue && fiveDaysOfWeather.length < 5 && !fiveDaysOfWeather.find( day => day.dt === obj.dt ) ){
-      currDTValue = currDay // update the global variable so we don't use this day again
-
-      // if JS is still in this function, then we must be encountering this dt object for the first time. So the obj variable used in the forEach() must be referring to the firt hour block for this day. get the first record (the obj variable above) and use that for the weather for this day
-      fiveDaysOfWeather.push(obj)
+// get saved cities from localStorage and creating a box for each saved city
+function getStorage(){
+  if(JSON.parse(localStorage.getItem ("Saved Cities")) !==null){
+    savedCities = JSON.parse(localStorage.getItem ("Saved Cities"));
+  }
+  // console.log(JSON.parse(localStorage.getItem ("Saved Cities")))
+  if(savedCities !== null){
+    for(i=0; i<savedCities.length; i++){
+      // console.log(cityEl.value.trim)
+      let newCity = document.createElement("div").classList.add("new-cities");
+      newCity.textContent = savedCities[i];
+      document.getElementById("prev-searched-cities").appendChild(newCity);
     }
-  })
+  }
 
-  // Once the code gets here, we should have one weather object per day.
-  console.log(fiveDaysOfWeather)
 }
+
+// Code our Instructor gave us:
+
+// function parseWeatherData(data){
+//   data.forEach( obj => {
+//     // use moment or dayjs to parse the obj dt variable and get the "real date"
+//     const dateObj = new moment(obj.list.dt)
+//     console.log(date.obj); //get just day value
+
+//     // from this dateObj, use moment or js to get the date it represents. ***This is for you to do ***.
+//     const currday = ""; //logging what day were on
+
+//     // if the current dt value differs from the global variable, AND we don't have data in our array for this day, 
+//     // we must be on a new day
+//     if( currDay !== currDTValue && fiveDaysOfWeather.length < 5 && !fiveDaysOfWeather.find( day => day.dt === obj.dt ) ){
+//       currDTValue = currDay // update the global variable so we don't use this day again
+
+//       // if JS is still in this function, then we must be encountering this dt object for the first time. So the obj variable used in the forEach() must be referring to the firt hour block for this day. get the first record (the obj variable above) and use that for the weather for this day
+//       fiveDaysOfWeather.push(obj)
+//     }
+//   })
+
+//   // Once the code gets here, we should have one weather object per day.
+//   console.log(fiveDaysOfWeather)
+// }
 
 
 // getWeatherData();
