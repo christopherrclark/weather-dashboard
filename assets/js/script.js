@@ -17,7 +17,7 @@ var savedCities = []
 // var apiUrl = 
 
 // fetch(queryURL) 
-
+ 
 getStorage();
 
 // Here's a sample of how you might start the app
@@ -54,7 +54,8 @@ searchFormEl.addEventListener('submit', function(event){
 
 // create box for searched city
 function createCityBox(){
-  let newCity = document.createElement("div").classList.add("new-cities");  //target "new-cities" for css styling box for each city saved
+  let newCity = document.createElement("div.new-cities");  //target "new-cities" for css styling box for each city saved
+  // newCity.classList.add("new-cities");
   newCity.textContent = cityEl.value.trim();
   document.getElementById("prev-searched-cities").appendChild(newCity);
 }
@@ -68,7 +69,9 @@ function getStorage(){
   if(savedCities !== null){
     for(i=0; i<savedCities.length; i++){
       // console.log(cityEl.value.trim)
-      let newCity = document.createElement("div").classList.add("new-cities");
+      let newCity = document.createElement("div");
+      newCity.classList.add("new-cities");
+      console.log(newCity);
       newCity.textContent = savedCities[i];
       document.getElementById("prev-searched-cities").appendChild(newCity);
     }
@@ -76,7 +79,7 @@ function getStorage(){
 
 }
 
-// Code our Instructor gave us:
+// Code our Instructor gave us: to parse out one record per day in the 5 day forcast(because it gives us like 6 per day)
 
 // function parseWeatherData(data){
 //   data.forEach( obj => {
