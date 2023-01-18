@@ -9,6 +9,7 @@ var cloudsEl = document.getElementById('clouds');
 var windEl = document.getElementById('wind');
 var humidityEl = document.getElementById('humidity');
 var savedCities = []
+var city = "";
 
 // document.querySelector('#search-input').value;
 
@@ -23,8 +24,9 @@ getStorage();
 // Here's a sample of how you might start the app
 // contact with Api to get weather data adn assigning text content to the HTML based on weather data retrieved
 function getWeatherData(event){
-  event.preventDefault();
-  var city = cityEl.value.trim();
+  console.log(city)
+  // event.preventDefault();
+  // city = cityEl.value.trim();
   var apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIkey + "&units=imperial"
   fetch(apiURL)
   .then( response => {
@@ -44,7 +46,9 @@ function getWeatherData(event){
 
 // added eventListener to watch for when submit button is pushed to start looking weather data for seached city
 searchFormEl.addEventListener('submit', function(event){
-  getWeatherData(event);
+  event.preventDefault()
+  city = cityEl.value.trim();
+  getWeatherData();
   console.log (cityEl.value);
   savedCities.push(cityEl.value.trim());
   localStorage.setItem("Saved Cities", JSON.stringify(savedCities));
@@ -134,6 +138,13 @@ function display5Day(){
 
   })
 }
+
+document.getElementById("prev-searched-cities").addEventListener("click", function(event){
+city = event.target.textContent;
+getWeatherData();
+})
+
+
 
 // getWeatherData();
 

@@ -1,6 +1,20 @@
-# 06 Server-Side APIs: Weather Dashboard
+# Weather Dashboard
 
-## Your Task
+## Project Summary
+
+The goal of this assignment is to create a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS that utilizes the openweathermap.org API to retrieve data 
+
+### Here is the link to the final version of the project.
+
+[Click here to see my Weather Dashboard.](https://christopherrclark.github.io/weather-dashboard/)
+
+
+![Click here is a screen shot of my Weather Dashboard](./Assets/PasswordGeneratorScreenshot2.png)
+
+
+
+
+
 
 Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Your challenge is to build a weather dashboard that will run in the browser and feature dynamically updated HTML and CSS.
 
