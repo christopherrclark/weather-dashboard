@@ -1,4 +1,4 @@
-let currDTValue = "";
+let currDTValue = moment().format("YYYY-MM-DD");
 const fiveDaysOfWeather = []
 var searchFormEl = document.querySelector('#search-form');
 var cityEl = document.getElementById('search-input');
@@ -30,16 +30,15 @@ function getWeatherData(event){
   .then( response => {
     return response.json()
   })
-  .then( data => {
-    // send the data to the parsing function below
-    // parseWeatherData(data)
+  .then( data => {    
     console.log (data)
     cityNameEl.textContent = data.name;
     tempEl.textContent = "Temp: " + data.main.temp + " F";
     cloudsEl.textContent = "Cloud Conditions: " + data.weather[0].description;
     windEl.textContent = "Wind: " + data.wind.speed + " mph";
     humidityEl.textContent = "Humidity: " + data.main.humidity + " %";
-
+    // send the data to the parsing function below
+    parseWeatherData(data)
   })
 }
 
@@ -81,28 +80,29 @@ function getStorage(){
 
 // Code our Instructor gave us: to parse out one record per day in the 5 day forcast(because it gives us like 6 per day)
 
-// function parseWeatherData(data){
-//   data.forEach( obj => {
-//     // use moment or dayjs to parse the obj dt variable and get the "real date"
-//     const dateObj = new moment(obj.list.dt)
-//     console.log(date.obj); //get just day value
+function parseWeatherData(data){
+  console.log(data)
+  data.forEach( obj => {
+    // use moment or dayjs to parse the obj dt variable and get the "real date"
+    const dateObj = new moment(obj.list.dt)
+    console.log(date.obj); //get just day value
 
-//     // from this dateObj, use moment or js to get the date it represents. ***This is for you to do ***.
-//     const currday = ""; //logging what day were on
+    // from this dateObj, use moment or js to get the date it represents. ***This is for you to do ***.
+    const currday = moment(dateObj * 1000).format("YYYY-MM-DD"); //logging what day were on
 
-//     // if the current dt value differs from the global variable, AND we don't have data in our array for this day, 
-//     // we must be on a new day
-//     if( currDay !== currDTValue && fiveDaysOfWeather.length < 5 && !fiveDaysOfWeather.find( day => day.dt === obj.dt ) ){
-//       currDTValue = currDay // update the global variable so we don't use this day again
+    // if the current dt value differs from the global variable, AND we don't have data in our array for this day, 
+    // we must be on a new day
+    if( currDay !== currDTValue && fiveDaysOfWeather.length < 5 && !fiveDaysOfWeather.find( day => day.dt === obj.dt ) ){
+      currDTValue = currDay // update the global variable so we don't use this day again
 
-//       // if JS is still in this function, then we must be encountering this dt object for the first time. So the obj variable used in the forEach() must be referring to the firt hour block for this day. get the first record (the obj variable above) and use that for the weather for this day
-//       fiveDaysOfWeather.push(obj)
-//     }
-//   })
+      // if JS is still in this function, then we must be encountering this dt object for the first time. So the obj variable used in the forEach() must be referring to the firt hour block for this day. get the first record (the obj variable above) and use that for the weather for this day
+      fiveDaysOfWeather.push(obj)
+    }
+  })
 
-//   // Once the code gets here, we should have one weather object per day.
-//   console.log(fiveDaysOfWeather)
-// }
+  // Once the code gets here, we should have one weather object per day.
+  console.log(fiveDaysOfWeather)
+}
 
 
 // getWeatherData();
