@@ -1,0 +1,67 @@
+/* universal selector: selects everything on the page */
+* {
+
+}
+
+/* element selector */
+body {
+  
+}
+
+/* h1 and(or h2 with out comma is h2 nested inside an h1) h2 selectors */
+h1, h2 {
+
+}
+
+
+/* paragraph selector */
+p {
+
+}
+
+/* element (span) inside another element  */
+p span{
+  
+}
+
+
+
+
+/* class selector */
+.card {
+  background-color: hsl(240, 65%, 64%);
+  text-align: center;
+  color: rgb(163, 192, 218);
+}
+
+.new-cities {
+  background-color: hsl(258, 17%, 50%);
+  color: wheat;
+  text-align: center;
+}
+
+/* id selector */
+#five-day-container {
+  /*outline: 1px solid red; */
+  /* background-color: rgb(35, 35, 216); */
+  color: rgb(163, 192, 218);
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dayContainer {
+  flex-basis: 20%;
+ /* outline: 1px solid green; */
+}
+
+@media screen and (max-width: 620px) {
+  .dayContainer {
+    flex-basis: 100%;
+    border: 1px solid #333;
+    padding: 3px;
+    margin-bottom: 10px;
+  }
+}
+
