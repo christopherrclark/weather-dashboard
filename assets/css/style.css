@@ -1,36 +1,3 @@
-/* universal selector: selects everything on the page */
-/* * {
-
-} */
-
-/* element selector */
-/* body {
-  
-} */
-
-/* h1 and(or h2 with out comma is h2 nested inside an h1) h2 selectors */
-/* h1, h2 {
-
-} */
-
-
-/* paragraph selector */
-/* p {
-
-} */
-
-/* element (span) inside another element  */
-/* p span{
-  
-} */
-
-
-#weather-icon{
-  display: none;
-  position: relative;
-  left: 46%;
-}
-
 /* class selector */
 .card {
   background-color: hsl(240, 65%, 64%);
@@ -44,10 +11,14 @@
   text-align: center;
 }
 
+.dayContainer {
+  flex-basis: 20%;
+  background-color: rgb(35, 35, 216);
+ /* outline: 1px solid green; */
+}
+
 /* id selector */
 #five-day-container {
-  /*outline: 1px solid red; */
-  
   color: rgb(163, 192, 218);
   text-align: center;
   display: flex;
@@ -56,10 +27,10 @@
   justify-content: center;
 }
 
-.dayContainer {
-  flex-basis: 20%;
-  background-color: rgb(35, 35, 216);
- /* outline: 1px solid green; */
+#weather-icon{
+  display: none;
+  position: relative;
+  left: 46%;
 }
 
 @media screen and (max-width: 620px) {
