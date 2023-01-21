@@ -1,5 +1,4 @@
 let currDTValue = moment().format("YYYY-MM-DD");
-const fiveDaysOfWeather = []
 var searchFormEl = document.querySelector('#search-form');
 var cityEl = document.getElementById('search-input');
 var APIkey= "73ee11fefe831f9d7a78e05e0c55a931";
@@ -8,6 +7,7 @@ var tempEl = document.getElementById('temp');
 var cloudsEl = document.getElementById('clouds');
 var windEl = document.getElementById('wind');
 var humidityEl = document.getElementById('humidity');
+var iconEl = document.getElementById('weather-icon');
 var savedCities = []
 var city = "";
 
@@ -27,20 +27,25 @@ function getWeatherData(event){
   console.log(city)
   // event.preventDefault();
   // city = cityEl.value.trim();
+  document.getElementById('weather-icon').style.display = "block"
   var apiURL = "https://api.openweathermap.org/data/2.5/forecast?q=" + city + "&appid=" + APIkey + "&units=imperial"
   fetch(apiURL)
   .then( response => {
     return response.json()
   })
   .then( data => {    
-    console.log (data)
     cityNameEl.textContent = data.city.name;
-    tempEl.textContent = "Temp: " + data.list[0].main.temp + " F";
+    tempEl.textContent = "Temp: " + data.list[0].main.temp + " \u00B0F";
     cloudsEl.textContent = "Cloud Conditions: " + data.list[0].weather[0].description;
     windEl.textContent = "Wind: " + data.list[0].wind.speed + " mph";
     humidityEl.textContent = "Humidity: " + data.list[0].main.humidity + " %";
+    var icon = data.list[0].weather[0].icon
+    var iconUrl = "http://openweathermap.org/img/wn/"+ icon +"@2x.png"
+    iconEl.setAttribute("src", iconUrl)
+    console.log ("data",icon)
     // send the data to the parsing function below
-    parseWeatherData(data.list)
+    // parseWeatherData(data.list)
+    display5Day(data.list)
   })
 }
 
@@ -50,7 +55,12 @@ searchFormEl.addEventListener('submit', function(event){
   city = cityEl.value.trim();
   getWeatherData();
   console.log (cityEl.value);
-  savedCities.push(cityEl.value.trim());
+  var newCity = cityEl.value.toLowerCase().trim()
+  if (savedCities.indexOf(newCity) !== -1) {
+    return;
+  }
+  savedCities.push(newCity);
+  console.log ("cities", savedCities)
   localStorage.setItem("Saved Cities", JSON.stringify(savedCities));
   createCityBox();
 });
@@ -84,59 +94,129 @@ function getStorage(){
 
 // Code our Instructor gave us: to parse out one record per day in the 5 day forcast(because it gives us like 6 per day)
 
-function parseWeatherData(data){
-  console.log(data)
-  data.forEach( obj => {
-    // use moment or dayjs to parse the obj dt variable and get the "real date"
-    const dateObj = new moment(obj.dt)
-    // console.log(dateObj); //get just day value
+// function parseWeatherData(data){
+//   console.log(data)
+//   data.forEach( obj => {
+//     // use moment or dayjs to parse the obj dt variable and get the "real date"
+//     const dateObj = new moment(obj.dt)
+//     // console.log(dateObj); //get just day value
 
-    // from this dateObj, use moment or js to get the date it represents. ***This is for you to do ***.
-    const currday = moment(dateObj * 1000).format("YYYY-MM-DD"); //logging what day were on
+//     // from this dateObj, use moment or js to get the date it represents. ***This is for you to do ***.
+//     const currday = moment(dateObj * 1000).format("YYYY-MM-DD"); //logging what day were on
 
-    // if the current dt value differs from the global variable, AND we don't have data in our array for this day, 
-    // we must be on a new day
-    if( currday !== currDTValue && fiveDaysOfWeather.length < 5 && !fiveDaysOfWeather.find( day => day.dt === obj.dt ) ){
-      currDTValue = currday // update the global variable so we don't use this day again
+//     // if the current dt value differs from the global variable, AND we don't have data in our array for this day, 
+//     // we must be on a new day
+//     if( currday !== currDTValue && fiveDaysOfWeather.length < 5 && !fiveDaysOfWeather.find( day => day.dt === obj.dt ) ){
+//       currDTValue = currday // update the global variable so we don't use this day again
 
-      // if JS is still in this function, then we must be encountering this dt object for the first time. So the obj variable used in the forEach() must be referring to the firt hour block for this day. get the first record (the obj variable above) and use that for the weather for this day
-      fiveDaysOfWeather.push(obj)
-    }
-  })
+//       // if JS is still in this function, then we must be encountering this dt object for the first time. So the obj variable used in the forEach() must be referring to the firt hour block for this day. get the first record (the obj variable above) and use that for the weather for this day
+//       fiveDaysOfWeather.push(obj)
+//     }
+//   })
 
-  // Once the code gets here, we should have one weather object per day.
-  console.log(fiveDaysOfWeather)
-  display5Day()
-}
+//   // Once the code gets here, we should have one weather object per day.
+//   console.log(fiveDaysOfWeather)
+//   display5Day()
+// }
 
-function display5Day(){
-  fiveDaysOfWeather.forEach( obj => {
+function display5Day(forecastList){
+  console.log(forecastList);
+  document.getElementById("five-day-container").innerHTML =""
+
+  for(let i=0;i<forecastList.length;i+=8){
+    let obj = forecastList[i]
+
+    var icon = obj.weather[0].icon
+    var iconUrl = "http://openweathermap.org/img/wn/"+ icon +"@2x.png"
+    console.log(iconUrl);
+    // iconEl.setAttribute("src", iconUrl)
     
     var dayContainer = document.createElement("div")
-    dayContainer.setAttribute("class", "dayContainer")
-    document.getElementById("five-day-container").appendChild(dayContainer)
+
+    // create a new image tag with document.createElement("div")
+    // give the img tag a src eq to line 125 (iconUrl)
+    // append the image to the container div
+    // use CSS to position the image however you want to
+
+     // create a new image tag with document.createElement("div")
+    var fiveDayIcon = document.createElement("img")
+    // give the img tag a src eq to line 125 (iconUrl)
+    fiveDayIcon.setAttribute("src", iconUrl)
+    // append the image to the container div
+    dayContainer.appendChild(fiveDayIcon)
+    // use CSS to position the image however you want to
+
+    dayContainer.setAttribute("class", "col-12 col-md-6 dayContainer col-lg-2")
     
     var fiveDayDate = document.createElement("p")
-    fiveDayDate.textContent = moment(obj.dt_txt).format("M-DD")
+    fiveDayDate.textContent = moment(obj.dt_txt).format("M-DD-YY")
     dayContainer.appendChild(fiveDayDate)
-
+    
     var fiveDayTemp = document.createElement("p")
-    fiveDayTemp.textContent = obj.main.temp + " F"
+    fiveDayTemp.textContent = obj.main.temp + " \u00B0F"
     dayContainer.appendChild(fiveDayTemp)
-
+    
     var fiveDayClouds = document.createElement("p")
     fiveDayClouds.textContent = obj.weather[0].description
     dayContainer.appendChild(fiveDayClouds)
-
+    
     var fiveDayWind = document.createElement("p")
     fiveDayWind.textContent = obj.wind.speed + " mph"
     dayContainer.appendChild(fiveDayWind)
-
+    
     var fiveDayHum = document.createElement("p")
     fiveDayHum.textContent = obj.main.humidity + " %"
     dayContainer.appendChild(fiveDayHum)
+    
+    document.getElementById("five-day-container").appendChild(dayContainer)
+  }
+  // let index = 0;
 
-  })
+  // fiveDaysOfWeather.forEach( obj => {
+    // var icon = obj.weather[0].icon
+    // var iconUrl = "http://openweathermap.org/img/wn/"+ icon +"@2x.png"
+    // iconEl.setAttribute("src", iconUrl)
+    
+    // var dayContainer = document.createElement("div")
+
+    // // create a new image tag with document.createElement("div")
+    // // give the img tag a src eq to line 125 (iconUrl)
+    // // append the image to the container div
+    // // use CSS to position the image however you want to
+
+    //  // create a new image tag with document.createElement("div")
+    // var fiveDayIcon = document.createElement("img")
+    // // give the img tag a src eq to line 125 (iconUrl)
+    // fiveDayIcon.setAttribute("src", iconUrl)
+    // // append the image to the container div
+    // dayContainer.appendChild(fiveDayIcon)
+    // // use CSS to position the image however you want to
+
+
+    // dayContainer.setAttribute("class", "col-12 col-md-6 dayContainer col-lg-2")
+    // document.getElementById("five-day-container").appendChild(dayContainer)
+    
+    // var fiveDayDate = document.createElement("p")
+    // fiveDayDate.textContent = moment(obj.dt_txt).format("M-DD")
+    // dayContainer.appendChild(fiveDayDate)
+
+    // var fiveDayTemp = document.createElement("p")
+    // fiveDayTemp.textContent = obj.main.temp + " \u00B0F"
+    // dayContainer.appendChild(fiveDayTemp)
+
+    // var fiveDayClouds = document.createElement("p")
+    // fiveDayClouds.textContent = obj.weather[0].description
+    // dayContainer.appendChild(fiveDayClouds)
+
+    // var fiveDayWind = document.createElement("p")
+    // fiveDayWind.textContent = obj.wind.speed + " mph"
+    // dayContainer.appendChild(fiveDayWind)
+
+    // var fiveDayHum = document.createElement("p")
+    // fiveDayHum.textContent = obj.main.humidity + " %"
+    // dayContainer.appendChild(fiveDayHum)
+    
+  // })
 }
 
 document.getElementById("prev-searched-cities").addEventListener("click", function(event){

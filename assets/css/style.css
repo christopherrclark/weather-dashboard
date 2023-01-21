@@ -1,31 +1,35 @@
 /* universal selector: selects everything on the page */
-* {
+/* * {
 
-}
+} */
 
 /* element selector */
-body {
+/* body {
   
-}
+} */
 
 /* h1 and(or h2 with out comma is h2 nested inside an h1) h2 selectors */
-h1, h2 {
+/* h1, h2 {
 
-}
+} */
 
 
 /* paragraph selector */
-p {
+/* p {
 
-}
+} */
 
 /* element (span) inside another element  */
-p span{
+/* p span{
   
+} */
+
+
+#weather-icon{
+  display: none;
+  position: relative;
+  left: 46%;
 }
-
-
-
 
 /* class selector */
 .card {
@@ -43,16 +47,18 @@ p span{
 /* id selector */
 #five-day-container {
   /*outline: 1px solid red; */
-  /* background-color: rgb(35, 35, 216); */
+  
   color: rgb(163, 192, 218);
   text-align: center;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  justify-content: center;
 }
 
 .dayContainer {
   flex-basis: 20%;
+  background-color: rgb(35, 35, 216);
  /* outline: 1px solid green; */
 }
 
