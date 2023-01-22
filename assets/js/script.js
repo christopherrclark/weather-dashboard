@@ -108,7 +108,7 @@ function display5Day(forecastList){
     dayContainer.appendChild(fiveDayDate)
     
     var fiveDayTemp = document.createElement("p")
-    fiveDayTemp.textContent = obj.main.temp + " \u00B0F"
+    fiveDayTemp.textContent = "Temp: " + obj.main.temp + " \u00B0F"
     dayContainer.appendChild(fiveDayTemp)
     
     var fiveDayClouds = document.createElement("p")
@@ -116,11 +116,11 @@ function display5Day(forecastList){
     dayContainer.appendChild(fiveDayClouds)
     
     var fiveDayWind = document.createElement("p")
-    fiveDayWind.textContent = obj.wind.speed + " mph"
+    fiveDayWind.textContent = "Wind: " + obj.wind.speed + " mph"
     dayContainer.appendChild(fiveDayWind)
     
     var fiveDayHum = document.createElement("p")
-    fiveDayHum.textContent = obj.main.humidity + " %"
+    fiveDayHum.textContent = "Humidity: " + obj.main.humidity + " %"
     dayContainer.appendChild(fiveDayHum)
     
     document.getElementById("five-day-container").appendChild(dayContainer)
