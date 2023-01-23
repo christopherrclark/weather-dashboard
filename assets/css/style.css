@@ -1,25 +1,43 @@
 /* class selector */
 .card {
-  background-color: hsl(240, 65%, 64%);
+  background-color: #5b5bf8;
   text-align: center;
-  color: rgb(163, 192, 218);
+  color: #faf4a8;
 }
 
 .new-cities {
-  background-color: hsl(258, 17%, 50%);
-  color: wheat;
+  background-color: #ceceff;
+  color: black;
   text-align: center;
+  border: 1px solid #919191;
+  margin-top: .3rem;
+  padding: 5px;
+  border-radius: 4px;
 }
 
 .dayContainer {
-  flex-basis: 20%;
-  background-color: rgb(35, 35, 216);
+  /* flex-basis: 20%; */
+  background-color: #080833;
  /* outline: 1px solid green; */
+  border-radius: 4px;
+}
+
+.header {
+  background-color: #5b5bf8;
+  background-image: linear-gradient(315deg, #5b5bf8 0%, #080833 74%);
+  color: #faf4a8;
+  text-align: center;
+}
+
+.btn {
+  background-color: #85c6fc;
+  margin-top: .2rem;
+  border: 1px solid #919191;
 }
 
 /* id selector */
 #five-day-container {
-  color: rgb(163, 192, 218);
+  color: #faf4a8;
   text-align: center;
   display: flex;
   flex-wrap: wrap;
@@ -33,12 +51,12 @@
   left: 46%;
 }
 
-@media screen and (max-width: 620px) {
+/* @media screen and (max-width: 420px) {
   .dayContainer {
     flex-basis: 100%;
     border: 1px solid #333;
     padding: 3px;
     margin-bottom: 10px;
   }
-}
+} */
 

@@ -22,8 +22,9 @@ function getWeatherData(event){
   .then( response => {
     return response.json()
   })
-  .then( data => {    
-    cityNameEl.textContent = data.city.name;
+  .then( data => {  
+    var todaysDate = new Date()  
+    cityNameEl.textContent = data.city.name + " " + moment().format("M-DD-YY");
     tempEl.textContent = "Temp: " + data.list[0].main.temp + " \u00B0F";
     cloudsEl.textContent = "Cloud Conditions: " + data.list[0].weather[0].description;
     windEl.textContent = "Wind: " + data.list[0].wind.speed + " mph";
@@ -51,7 +52,8 @@ searchFormEl.addEventListener('submit', function(event){
   localStorage.setItem("Saved Cities", JSON.stringify(savedCities));
   createCityBox();
 });
-
+// var todayDate = new Date().getDate()
+// console.log(todayDate)
 // create box for searched city
 function createCityBox(){
   let newCity = document.createElement("div.new-cities");  //target "new-cities" for css styling box for each city saved
@@ -101,7 +103,8 @@ function display5Day(forecastList){
     dayContainer.appendChild(fiveDayIcon)
     // use CSS to position the image however you want to
 
-    dayContainer.setAttribute("class", "col-12 col-md-6 dayContainer col-lg-2")
+    // dayContainer.setAttribute("class", "col-sm-12 col-md-6 dayContainer col-lg-2")
+    dayContainer.classList.add("col-sm-12", "col-md-5", "col-lg-2", "dayContainer")
     
     var fiveDayDate = document.createElement("p")
     fiveDayDate.textContent = moment(obj.dt_txt).format("M-DD-YY")
